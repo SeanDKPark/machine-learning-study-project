@@ -5,4 +5,4 @@ This project is aimed to learn the basic concepts of supervised learning with th
 
 ## Files
 The notebook file [Linear Regression and Gradient Descent Algorithm](linear_regression_and_gradient_descent_algorithm.ipynb) holds the python codes for the project.
-The files numbered 1 to 9 are the visual results of the notebook file. 
+The visual results are presented in the visualization folder under numbers 1 to 9.
