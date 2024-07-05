@@ -17,4 +17,3 @@ The blog is at https://blog.naver.com/snueconomicus
 
 ## Contact
 If you have any questions or suggestions, feel free to reach out to me at pdksean@gmail.com
-Or you can
