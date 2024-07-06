@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm
 import time
 
-# df = pd.read_csv('datasets/50_Startups.csv')
-# df = df.drop(columns = ['State'])
-df =pd.read_csv('datasets/Student_Performance.csv')
-df = df.iloc[:1000, :].drop(columns = ['Extracurricular Activities'])
+df = pd.read_csv('datasets/50_Startups.csv')
+df = df.drop(columns = ['State'])
+# df =pd.read_csv('datasets/Student_Performance.csv')
+# df = df.iloc[:1000, :].drop(columns = ['Extracurricular Activities'])
 cols = list(df.columns)
 df_x = df.iloc[:, :-1]
 df_y = df.iloc[:, -1]
@@ -97,48 +97,48 @@ plt.title('Learning Curve')
 plt.tight_layout()
 plt.show()
 
-# Slower version using for loop instead of np.dot
-def compute_cost_serial(X, y, w, b):
-    m, n = X.shape
-    cost = 0.0
-    for i in range(m):
-        p = 0
-        for j in range(n):
-            p += X[j]*w[j]
-        y_hat_i = p + b
-        cost += (y_hat_i - y[i]) ** 2
-    cost /= (2 * m)
-    return cost
-
-def compute_gradient_serial(X, y, w, b):
-    m, n = X.shape
-    dj_dw = np.zeros((n, ))
-    dj_db = 0.0
-    for i in range(m):
-        p = 0
-        for j in range(n):
-            p += X[i, j]*w[j]
-        error = (p + b) - y[i]
-        for j in range(n):
-            dj_dw[j] += error * X[i, j]
-        dj_db += error
-    dj_dw /= m
-    dj_db /= m
-    return dj_dw, dj_db
-
-# Parallel Computing
-start_time = time.time()
-w_final, b_final, cost_history = gradient_descent(X_train, y_train, w_in, b_in, compute_cost, compute_gradient, alpha, iter)
-end_time = time.time()
-elapsed_time_func1 = end_time - start_time
-print(f"Time elapsed for parallel computing: {elapsed_time_func1:.6f} seconds")
-
-# Serial Computing
-start_time = time.time()
-w_final, b_final, cost_history = gradient_descent(X_train, y_train, w_in, b_in, compute_cost_serial, compute_gradient_serial, alpha, iter)
-end_time = time.time()
-elapsed_time_func1 = end_time - start_time
-print(f"Time elapsed for serial computing: {elapsed_time_func1:.6f} seconds")
+# # Slower version using for loop instead of np.dot
+# def compute_cost_serial(X, y, w, b):
+#     m, n = X.shape
+#     cost = 0.0
+#     for i in range(m):
+#         p = 0
+#         for j in range(n):
+#             p += X[j]*w[j]
+#         y_hat_i = p + b
+#         cost += (y_hat_i - y[i]) ** 2
+#     cost /= (2 * m)
+#     return cost
+#
+# def compute_gradient_serial(X, y, w, b):
+#     m, n = X.shape
+#     dj_dw = np.zeros((n, ))
+#     dj_db = 0.0
+#     for i in range(m):
+#         p = 0
+#         for j in range(n):
+#             p += X[i, j]*w[j]
+#         error = (p + b) - y[i]
+#         for j in range(n):
+#             dj_dw[j] += error * X[i, j]
+#         dj_db += error
+#     dj_dw /= m
+#     dj_db /= m
+#     return dj_dw, dj_db
+#
+# # Parallel Computing
+# start_time = time.time()
+# w_final, b_final, cost_history = gradient_descent(X_train, y_train, w_in, b_in, compute_cost, compute_gradient, alpha, iter)
+# end_time = time.time()
+# elapsed_time_func1 = end_time - start_time
+# print(f"Time elapsed for parallel computing: {elapsed_time_func1:.6f} seconds")
+#
+# # Serial Computing
+# start_time = time.time()
+# w_final, b_final, cost_history = gradient_descent(X_train, y_train, w_in, b_in, compute_cost_serial, compute_gradient_serial, alpha, iter)
+# end_time = time.time()
+# elapsed_time_func1 = end_time - start_time
+# print(f"Time elapsed for serial computing: {elapsed_time_func1:.6f} seconds")
 
 
 # Feature Scaling
@@ -211,7 +211,7 @@ fig.suptitle("distribution of features before normalization")
 plt.tight_layout()
 plt.show()
 
-fig,ax=plt.subplots(1,4,figsize=(12,3))
+fig,ax=plt.subplots(1,n,figsize=(12,3))
 for i in range(len(ax)):
     plot_histogram_with_normal(ax[i],X_norm[:,i],)
     ax[i].set_xlabel(X_features[i])
@@ -232,3 +232,91 @@ plt.ylabel('Cost')
 plt.title('Learning Curve')
 plt.tight_layout()
 plt.show()
+
+def compute_cost_contour(X, y , w0, w1, w2, b):
+    w = np.array([w0, w1, w2])
+    m = X.shape[0]
+    cost = 0.0
+    for i in range(m):
+        y_hat_i = np.dot(X[i], w) + b
+        cost += (y_hat_i - y[i]) ** 2
+    cost /= (2*m)
+    return cost
+
+
+# Prepare Contour Plot
+def compute_cost_contour(X, y, w0, w1, w2, b):
+    w = np.array([w0, w1, w2])
+    m = X.shape[0]
+    cost = 0.0
+    for i in range(m):
+        y_hat_i = np.dot(X[i], w) + b
+        cost += (y_hat_i - y[i]) ** 2
+    cost /= (2 * m)
+    return cost
+
+
+def plot_contour(X, y, compute_cost, u_limit, label, file_name, num_points=100):
+    w0_vals = np.linspace(-1 * u_limit, u_limit, num_points)
+    w1_vals = np.linspace(-1 * u_limit, u_limit, num_points)
+    W0, W1 = np.meshgrid(w0_vals, w1_vals)
+    Z = np.zeros_like(W0)
+    for i in range(num_points):
+        for j in range(num_points):
+            cost = compute_cost(X, y, W0[i, j], 1, W1[i, j], 0)
+            Z[i, j] = cost
+
+    # Adjust levels based on the range of computed costs
+    min_cost = np.min(Z)
+    max_cost = np.max(Z)
+    levels = np.linspace(min_cost, max_cost, 30)  # Adjust the number of levels as needed
+
+    plt.figure(figsize=(8, 8))
+    plt.contour(W0, W1, Z, levels=levels, cmap='plasma')
+    plt.xlabel(f'{label} w0')
+    plt.ylabel(f'{label} w2')
+    plt.title('Contour Plot of Cost Function')
+    plt.grid(True)
+    plt.tight_layout()
+    # plt.savefig('figures/{}.png'.format(file_name))
+    return
+
+plot_contour(X_train, y_train, compute_cost_contour, 100000, 'Raw', 'fs_07_01')
+plot_contour(X_norm, y_train, compute_cost_contour, 100000, 'Normalized', 'fs_07_02')
+
+
+def plot_learning_curve_and_trajectory(alpha, iterations, cost_func, gradient_func, gradient_descent, X, y, w, b):
+    # Run gradient descent to get the final parameters, cost history, and parameter history
+    final_w, final_b, cost_history, params_history = gradient_descent(X, y, w, b, alpha, iterations, cost_func,
+                                                                      gradient_func)
+
+    # Extract parameter history (assuming params_history contains (w, b) tuples)
+    w_history = np.array([w for w, b in params_history])
+
+    # Create the figure and subplots
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+
+    # Subplot 1: Learning Curve
+    ax1.plot(range(1, iterations + 1), cost_history, label='Cost')
+    ax1.set_xlabel('Number of Iterations')
+    ax1.set_ylabel('Cost')
+    ax1.set_title('Learning Curve')
+    ax1.legend()
+    ax1.grid(True)
+
+    # Subplot 2: Trajectory and Cost Function
+    # Generate w values for the cost function plot
+    w_min, w_max = np.min(w_history), np.max(w_history)
+    w_values = np.linspace(w_min - 1, w_max + 1, 100)
+    costs = [cost_func(X, y, w, final_b) for w in w_values]
+
+    ax2.plot(w_values, costs, label='Cost Function', color='blue')
+    ax2.scatter(w_history, cost_history, color='red', marker='x', label='Trajectory')
+    ax2.set_xlabel('Slope Parameter w')
+    ax2.set_ylabel('Cost')
+    ax2.set_title('Trajectory of Cost and Cost Function')
+    ax2.legend()
+    ax2.grid(True)
+
+    plt.tight_layout()
+    plt.show()
