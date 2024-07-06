@@ -7,7 +7,7 @@ I am running a Korean Blog about the results of each project, so feel free to vi
 The blog is at https://blog.naver.com/snueconomicus
 
 ## Projects
-- [Linear Regression](linear-regression/README.md)
+- [Linear Regression](univariate-linear-regression/README.md)
 
 
 ## How to Use
