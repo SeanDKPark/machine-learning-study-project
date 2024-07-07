@@ -13,4 +13,4 @@ https://blog.naver.com/snueconomicus/223499182660
 The notebook file [Learning Rate](learning-rate.ipynb) holds the python codes for the project.
 The visual results of this file are presented in the figures folder under numbers 10 to 11.
 The blog url about the project is
-
+https://blog.naver.com/snueconomicus/223504150222
