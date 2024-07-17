@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import SGDRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-import imageio
+from matplotlib.animation import FuncAnimation
+from PIL import Image
 
 from mpl_toolkits.mplot3d import Axes3D
 
@@ -121,7 +122,9 @@ plt.show()
 
 ## Linear Show that linear regression is sensitive to outliers -> 더 작은 데이터셋으로
 
-### Show that sigmoid is needed!
+### Show that sigmoid is needed! -> Done
+
+
 
 ## Logistic Regression by hand
 
@@ -155,6 +158,8 @@ def logistic_loss_cost_function(X, y, w, b):
     cost = (-1 / m) * np.sum(y * np.log(h) + (1 - y) * np.log(1 - h))
     return cost
 
+### 3D Plots of Cost Function
+
 b_grid = np.linspace(-10, 10, 100)
 w0_grid = np.linspace(-10, 10, 100)
 w1_grid = np.linspace(-10, 10, 100)
@@ -183,7 +188,6 @@ b_index = 0  # Arbitrary fixed index for w2 to visualize in 3D
 w0_vals, w1_vals = np.meshgrid(w0_grid, w1_grid)
 fig = plt.figure(figsize = (14, 8))
 ax0 = fig.add_subplot(121, projection='3d')
-print(type(ax0))
 ax0.plot_surface(w0_vals, w1_vals, J_squared_error[b_index, :, :], cmap='plasma')
 ax0.set_xlabel(features[0])
 ax0.set_ylabel(features[1])
@@ -196,6 +200,18 @@ ax1.set_xlabel(features[0])
 ax1.set_ylabel(features[1])
 ax1.set_zlabel('Cost')
 ax1.set_title('Logistic Loss Function for Logistic Regression')
+
+# Function to update the plots for animation
+def update(frame):
+    ax0.view_init(30, frame)
+    ax1.view_init(30, frame)
+    return fig,
+
+# Create the animation
+ani = FuncAnimation(fig, update, frames=360, interval=10)
+
+# Save the animation as a GIF
+ani.save('3d_plots_animation.gif', writer='pillow', fps=30)
 plt.show()
 
 w1_index = 0  # Arbitrary fixed index for w2 to visualize in 3D
@@ -216,7 +232,13 @@ ax1.set_ylabel(features[0])
 ax1.set_zlabel('Cost')
 ax1.set_title('Logistic Loss Function for Logistic Regression')
 plt.tight_layout()
+
 plt.show()
+
+
+
+
+### 2D Slices of cost surfaces
 
 b_fixed = 0
 w0_fixed = -5 # 이 숫자 바꿔가면서 체크
