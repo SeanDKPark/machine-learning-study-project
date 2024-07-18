@@ -201,19 +201,6 @@ ax1.set_ylabel(features[1])
 ax1.set_zlabel('Cost')
 ax1.set_title('Logistic Loss Function for Logistic Regression')
 
-# Function to update the plots for animation
-def update(frame):
-    ax0.view_init(30, frame)
-    ax1.view_init(30, frame)
-    return fig,
-
-# Create the animation
-ani = FuncAnimation(fig, update, frames=360, interval=10)
-
-# Save the animation as a GIF
-ani.save('3d_plots_animation.gif', writer='pillow', fps=30)
-plt.show()
-
 w1_index = 0  # Arbitrary fixed index for w2 to visualize in 3D
 b_vals, w0_vals = np.meshgrid(b_grid, w0_grid)
 fig = plt.figure(figsize = (14, 8))
