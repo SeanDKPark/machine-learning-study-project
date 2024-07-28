@@ -8,6 +8,7 @@ The blog is at https://blog.naver.com/snueconomicus
 
 ## Projects
 - [Univariate Linear Regression](univariate-linear-regression/README.md) Covers basic concepts of supervised learning
+- [Multiple Linear Regression]()
 
 
 ## How to Use
