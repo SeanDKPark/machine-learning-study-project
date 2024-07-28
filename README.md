@@ -7,9 +7,10 @@ I am running a Korean Blog about the results of each project, so feel free to vi
 The blog is at https://blog.naver.com/snueconomicus
 
 ## Projects
-- [Univariate Linear Regression](univariate-linear-regression/README.md) Covers basic concepts of supervised learning
-- [Multiple Linear Regression]()
-
+- [Univariate Linear Regression](univariate-linear-regression/README.md) covers basic concepts of supervised learning.
+- [Multiple Linear Regression](multiple-linear-regression/README.md) covers topics on parallel computing and feature scaling.
+- [Polynomial Regression](polynomial-regression/README.md) covers topics on feature engineering.
+- [Logistic Regression](logistic-regression/README.md) covers basic concepts of logistic regression and overfitting.
 
 ## How to Use
 1. Clone this repository.
